@@ -8,6 +8,8 @@ object EventTest
 {
 	def main(args: Array[String]): Unit = 
 	{
+		// Just testing event immutablility
+		
 		println("Test started.")
 		
 		val event1 = new TestEvent(1, "The first event")
