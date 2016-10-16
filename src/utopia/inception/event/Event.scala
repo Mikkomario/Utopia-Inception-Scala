@@ -15,6 +15,9 @@ trait Event
 	
 	// IMPLEMENTATIONS	------------
 	
+	/**
+	 * @return A string version of the event's identifiers
+	 */
 	override def toString() = 
 	{
 		var s = new StringBuilder()

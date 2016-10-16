@@ -1,5 +1,7 @@
 package utopia.inception.test
 
+import utopia.inception.event.Event
+
 /**
  * This test tests the test implementations of the abstract event features introduced in this
  * project
@@ -21,5 +23,14 @@ object EventTest
 		
 		eventVar = new TestEvent(2, "different event isntance")
 		println("Changed value", eventVar)
+		
+		
+		// Testing event filter(s)
+		val filter = new TestEventFilter()
+		println(filter(event1))
+		
+		val events = Array[TestEvent](event1, eventVar)
+		println(events.filter { event => filter(event) }.size)
+		println(filter(events).size)
 	}
 }
