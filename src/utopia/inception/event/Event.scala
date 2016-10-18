@@ -5,12 +5,14 @@ package utopia.inception.event
  * other events based on their identifiers.
  * 
  * Events should always be immutable
+ * @author Mikko Hilpinen
+ * @since 16.10.2016
  */
 trait Event
 {
 	// REQUIRED ATTRIBUTES	--------
 	
-	val identifiers: Array[Any]
+	val identifiers: Map[String, Any]
 	
 	
 	// IMPLEMENTATIONS	------------
@@ -21,12 +23,8 @@ trait Event
 	override def toString() = 
 	{
 		var s = new StringBuilder()
-		this.identifiers.headOption.foreach { firstElement => s.append(firstElement.toString()) }
-		this.identifiers.tail.foreach {
-			identifier =>
-				s.append(", ")
-				s.append(identifier.toString())
-		}
+		this.identifiers.headOption.foreach { case (id, value) => s.append(s"$id = $value")}
+		this.identifiers.tail.foreach { case (id, value) => s.append(s", $id = $value") }
 		
 		s.toString()
 	}

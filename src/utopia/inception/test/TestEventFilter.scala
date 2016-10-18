@@ -3,7 +3,7 @@ package utopia.inception.test
 import utopia.inception.event.EventFilter
 import utopia.inception.event.Event
 
-class TestEventFilter extends EventFilter
+class TestEventFilter(val requiredId: Int) extends EventFilter
 {
-	def includes(event: Event): Boolean = true
+	override def includes(event: Event) = event.identifiers("index") == requiredId
 }

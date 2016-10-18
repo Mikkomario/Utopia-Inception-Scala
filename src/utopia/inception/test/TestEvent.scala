@@ -7,5 +7,5 @@ import utopia.inception.event.Event
  */
 class TestEvent(val index: Int, val message: String) extends Event
 {
-	val identifiers = Array(index, message)
+	val identifiers = Map("index" -> index, "message" -> message)
 }

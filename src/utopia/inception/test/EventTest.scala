@@ -10,6 +10,7 @@ object EventTest
 {
 	def main(args: Array[String]): Unit = 
 	{
+	    // XXX Could be a lot better test. Just messing with these here
 		// Just testing event immutablility
 		
 		println("Test started.")
@@ -26,11 +27,25 @@ object EventTest
 		
 		
 		// Testing event filter(s)
-		val filter = new TestEventFilter()
+		val filter = new TestEventFilter(1)
 		println(filter(event1))
+		println(filter(eventVar))
 		
 		val events = Array[TestEvent](event1, eventVar)
 		println(events.filter { event => filter(event) }.size)
 		println(filter(events).size)
+		
+		
+		// Testing combined event filter
+		val filter2 = new TestEventFilter(2)
+		println(filter2(event1))
+		println(filter2(eventVar))
+		
+		val combinedFilter = filter.or(filter2)
+		println(combinedFilter(event1))
+		println(combinedFilter(eventVar))
+		
+		assert(combinedFilter(event1))
+		assert(combinedFilter(eventVar))
 	}
 }
