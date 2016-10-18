@@ -2,10 +2,10 @@ package utopia.inception.state
 
 import scala.language.implicitConversions
 
-object ImmutableStateReference
+object ImmutableStateRef
 {
     // Boolean values can be used as immutable state references
-    implicit def booleanToState(b: Boolean) = new ImmutableStateReference(b)
+    implicit def booleanToState(b: Boolean) = new ImmutableStateRef(b)
 }
 
 /**
@@ -14,7 +14,8 @@ object ImmutableStateReference
  * @author Mikko Hilpinen
  * @since 18.10.2016
  */
-class ImmutableStateReference(val state: Boolean) extends StateReference
+@deprecated
+class ImmutableStateRef(val state: Boolean) extends StateRef
 {
     // No further implementation
 }

@@ -2,10 +2,10 @@ package utopia.inception.state
 
 import scala.language.implicitConversions
 
-object StateReference
+object StateRef
 {
     // State references can implicitly be converted to booleans
-    implicit def stateToBoolean(state: StateReference) = state.state
+    implicit def stateToBoolean(state: StateRef) = state.state
 }
 
 /**
@@ -13,8 +13,10 @@ object StateReference
  * while others are not
  * @author Mikko Hilpinen
  * @since 18.10.2016
+ * @deprecated I will try to make this project work without this interface
  */
-trait StateReference
+@deprecated
+trait StateRef
 {
     /**
      * The current status of the state (true or false)
