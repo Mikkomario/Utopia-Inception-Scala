@@ -28,7 +28,38 @@ object HandlingTest
         //type
         //TypeTag(
         println(acceptedClass.cast(obj))
+        
+        
+        // Tests basic handleable functions
+        testHandleable()
 	}
+    
+    def testHandleable() = 
+    {
+        val test = new TestObject()
+        
+        assert(!test.dead)
+        assert(test.defaultHandlingState)
+        assert(test.handlingState(TestHandlerType.instance))
+        
+        test.specifyHandlingState(TestHandlerType.instance)
+        test.defaultHandlingState = false
+        assert(!test.defaultHandlingState)
+        assert(test.handlingState(TestHandlerType.instance))
+        
+        val test2 = new TestObject()
+        test2.dependsFrom = Option(test)
+        assert(test2.handlingState(TestHandlerType.instance))
+        
+        test.specifyHandlingState(TestHandlerType.instance, false)
+        assert(!test2.handlingState(TestHandlerType.instance))
+        
+        test.specifyHandlingState(TestHandlerType.instance, true)
+        test2.defaultHandlingState = false
+        assert(!test2.handlingState(TestHandlerType.instance))
+        
+        println("success")
+    }
     
     def valueIsOfClass[ValueType, ClassType: ClassTag](value: ValueType, classTag: ClassType) = 
         value match

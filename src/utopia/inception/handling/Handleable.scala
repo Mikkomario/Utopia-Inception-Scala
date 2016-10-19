@@ -21,7 +21,7 @@ trait Handleable extends Killable
     /**
      * This is the state used when a handling state hasn't been specified for a specific handler
      */
-    var defaultHandlingState = false
+    var defaultHandlingState = true
     
     /**
      * The handling state (should the object be interacted) for a certain handler type
