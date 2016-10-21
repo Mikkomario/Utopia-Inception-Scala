@@ -6,7 +6,7 @@ package utopia.inception.handling
  * @author Mikko Hilpinen
  * @since 19.10.2016
  */
-trait HandlerType
+class HandlerType(val supportedClass: Class[_])
 {
-    def supportedClass: Class[_]
+    // This class is simply used as a wrapper / key
 }

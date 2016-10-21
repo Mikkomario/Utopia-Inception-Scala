@@ -2,8 +2,7 @@ package utopia.inception.test
 
 import utopia.inception.handling.HandlerType
 
-object TestHandlerType extends HandlerType
+object TestHandlerType
 {
-    val supportedClass = classOf[TestObject]
-    def instance = this
+    val instance = new HandlerType(classOf[TestObject])
 }

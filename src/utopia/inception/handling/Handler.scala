@@ -1,6 +1,7 @@
 package utopia.inception.handling
 
 import scala.collection.mutable.ListBuffer
+import scala.reflect.ClassTag
 
 /*
 object Handler
@@ -115,6 +116,22 @@ class Handler[T <: Handleable](val handlerType: HandlerType)
         
         if (!deadElements.isEmpty)
             addToTask(Task.remove, deadElements: _*)
+    }
+    
+    /**
+     * Adds a new element to this handler, provided that it's of correct type. If the element is 
+     * not of supported type, it won't be added
+     * @param element The element that is being added to this handler
+     * @return Was the element successfully added to the handler
+     */
+    protected def unsureAdd(element: Handleable) = 
+    {
+        // Checks that the element is compatible, then casts it and adds it
+    	val B = ClassTag(handlerType.supportedClass)
+    			ClassTag(element.getClass) match {
+    				case B => this += element.asInstanceOf[T]; true
+    				case _ => false
+    	}
     }
     
     /**
