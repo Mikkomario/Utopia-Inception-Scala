@@ -1,6 +1,7 @@
 package utopia.inception.test
 
 import scala.reflect.ClassTag
+import utopia.inception.handling.Handler
 
 object HandlingTest
 {
@@ -32,6 +33,7 @@ object HandlingTest
         
         // Tests basic handleable functions
         testHandleable()
+        testHandler()
 	}
     
     def testHandleable() = 
@@ -60,6 +62,55 @@ object HandlingTest
         
         println("success")
     }
+    
+    def testHandler() = 
+    {
+        println("Testing handler")
+        val handler = new Handler[TestObject](TestHandlerType.instance)
+        
+        val testObject1 = new TestObject()
+        val testObject2 = new TestObject()
+        val testObject3 = new TestObject()
+        
+        handler += (testObject1, testObject2, testObject3)
+        
+        testObject1.defaultHandlingState = false
+        handler.foreach(true, print)
+        println("---")
+        handler.foreach(false, print)
+        println("---")
+        handler.foreach(false, printFirst)
+        println("---")
+        
+        testObject1.kill()
+        handler.foreach(false, print)
+        println("---")
+        
+        val handler2 = new Handler[TestObject](TestHandlerType.instance)
+        handler2 absorb handler
+        println("")
+        handler.foreach(false, print)
+        println("---")
+        handler2.foreach(false, print)
+        println()
+        
+        handler2 -= testObject2
+        handler2.foreach(false, print)
+        println()
+        
+        handler2 += testObject2
+        handler2 += testObject2
+        handler2.foreach(false, print)
+        println("---")
+        
+        handler2.foreach(false, {obj => {handler2 += new TestObject(); true}})
+        handler2.foreach(false, print)
+        
+        println("Complete")
+    }
+    
+    def print(o: Any) = {println(o); true}
+    def printFirst(o: Any) = {println(o); false}
     
     def valueIsOfClass[ValueType, ClassType: ClassTag](value: ValueType, classTag: ClassType) = 
         value match

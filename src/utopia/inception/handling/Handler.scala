@@ -66,6 +66,11 @@ class Handler[T <: Handleable](val handlerType: HandlerType)
      */
     def --=(elements: Seq[T]) = this -=(elements: _*)
     
+    /**
+     * Absorbs the contents of another handler, removing the elements from that one and adding them 
+     * to this one
+     * @param other The handler that is emptied into this one
+     */
     def absorb(other: Handler[T]) = 
     {
         // Lists all elements that are going to be moved
@@ -75,6 +80,12 @@ class Handler[T <: Handleable](val handlerType: HandlerType)
         this ++= move
     }
     
+    /**
+     * Performs an operation over each of the elements inside this handler
+     * @param checkHandlingState Should the call be limited to elements with handling state true
+     * @param operation The operation performed over the elements. Returns whether the loop should
+     * break (false) or continue (true)
+     */
     def foreach(checkHandlingState: Boolean, operation: T => Boolean) = 
     {
         // Updates the status => adds elements and clears removed ones
