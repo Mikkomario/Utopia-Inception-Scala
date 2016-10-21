@@ -12,7 +12,7 @@ trait Killable
      * The value that defines whether the object should be considered dead or alive. The default 
      * status is alive = false
      */
-    def dead = _dead
+    def isDead = _dead
     
     /**
      * The object is killed. This change is permanent and cannot be undone.

@@ -38,7 +38,7 @@ object HandlingTest
     {
         val test = new TestObject()
         
-        assert(!test.dead)
+        assert(!test.isDead)
         assert(test.defaultHandlingState)
         assert(test.handlingState(TestHandlerType.instance))
         
