@@ -2,6 +2,7 @@ package utopia.inception.test
 
 import scala.reflect.ClassTag
 import utopia.inception.handling.Handler
+import utopia.inception.handling.Handleable
 
 object HandlingTest
 {
@@ -104,6 +105,17 @@ object HandlingTest
         println("---")
         
         handler2.foreach(false, {obj => {handler2 += new TestObject(); true}})
+        handler2.foreach(false, print)
+        
+        println("---")
+        handler2.clear()
+        handler2.foreach(false, print)
+        
+        class fakeHandleable extends Handleable{}
+        
+        println("---")
+        assert(handler2.unsureAdd(new TestObject()))
+        assert(!handler2.unsureAdd(new fakeHandleable()))
         handler2.foreach(false, print)
         
         println("Complete")

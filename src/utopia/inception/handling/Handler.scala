@@ -119,12 +119,17 @@ class Handler[T <: Handleable](val handlerType: HandlerType)
     }
     
     /**
+     * Clears the handler of all elements
+     */
+    def clear() = this --= (list(Task.add) ++ list(Task.handle))
+    
+    /**
      * Adds a new element to this handler, provided that it's of correct type. If the element is 
      * not of supported type, it won't be added
      * @param element The element that is being added to this handler
-     * @return Was the element successfully added to the handler
+     * @return Was the element suitable to be used by this handler
      */
-    protected def unsureAdd(element: Handleable) = 
+    def unsureAdd(element: Handleable) = 
     {
         // Checks that the element is compatible, then casts it and adds it
     	val B = ClassTag(handlerType.supportedClass)
