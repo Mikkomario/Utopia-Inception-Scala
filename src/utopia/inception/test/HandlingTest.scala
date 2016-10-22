@@ -3,6 +3,7 @@ package utopia.inception.test
 import scala.reflect.ClassTag
 import utopia.inception.handling.Handler
 import utopia.inception.handling.Handleable
+import utopia.inception.handling.HandlerRelay
 
 object HandlingTest
 {
@@ -67,13 +68,13 @@ object HandlingTest
     def testHandler() = 
     {
         println("Testing handler")
-        val handler = new Handler[TestObject](TestHandlerType.instance)
         
         val testObject1 = new TestObject()
         val testObject2 = new TestObject()
         val testObject3 = new TestObject()
         
-        handler += (testObject1, testObject2, testObject3)
+        val handler = new Handler[TestObject](TestHandlerType.instance, testObject1, testObject2)
+        handler += testObject3
         
         testObject1.defaultHandlingState = false
         handler.foreach(true, print)
@@ -123,6 +124,14 @@ object HandlingTest
         assert(!handler.handlingState)
         
         println("Complete")
+    }
+    
+    def testHandlerRelay() = 
+    {
+        val relay = new HandlerRelay()
+        assert(relay.handlers.isEmpty)
+        relay.register(new Handler[TestObject](TestHandlerType.instance))
+        assert(!relay.handlers.isEmpty)
     }
     
     def print(o: Any) = {println(o); true}

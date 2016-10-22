@@ -34,6 +34,8 @@ private object Task extends Enumeration
  */
 class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
 {
+    // INITIAL CODE    ---------------
+    
     // Handlers have a specific handling state for their own status
     specifyHandlingState(handlerType)
     
@@ -44,10 +46,21 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
     private val taskLocks = Task.values.foldLeft(Map.empty[Task.Value, Object])(
             {(map, task) => map + (task -> new AnyRef())});
     
+    
+    // CONSTRUCTOR OVERLOAD    ------
+    
+    def this(handlerType: HandlerType, elements: T*) = {this(handlerType); this ++= elements}
+    
+    
+    // UTILITY ACCESSORS    ---------
+    
     /**
      * The elements currently handled by this handler
      */
     def toList = list(Task.handle).toList
+    
+    
+    // HANDLEABLE INTERFACE    -----
     
     /**
      * The handler's handling state (whether the handler is being handled or not)
@@ -58,6 +71,9 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
      * another handler)
      */
     def handlingState_=(state: Boolean) = specifyHandlingState(handlerType, state)
+    
+    
+    // OPERATORS    -----------------
     
     /**
      * Adds elements to the handler if they don't exist there already
@@ -94,6 +110,9 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
         other --= move
         this ++= move
     }
+    
+    
+    // OTHER METHODS    ----------
     
     /**
      * Performs an operation over each of the elements inside this handler
@@ -152,6 +171,9 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
     				case _ => false
     	}
     }
+    
+    
+    // HELPER METHODS    -------------
     
     /**
      * Locks the target list and performs an operation over it. All mutating operations on
