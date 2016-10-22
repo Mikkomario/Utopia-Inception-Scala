@@ -118,6 +118,10 @@ object HandlingTest
         assert(!handler2.unsureAdd(new fakeHandleable()))
         handler2.foreach(false, print)
         
+        assert(handler.handlingState)
+        handler.handlingState = false
+        assert(!handler.handlingState)
+        
         println("Complete")
     }
     

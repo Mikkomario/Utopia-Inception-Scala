@@ -27,12 +27,16 @@ private object Task extends Enumeration
 /**
  * Handler classes operate over a number of handleable objects, performing some operations on them.
  * Handler is safe to use in multithread environments. Elements can be added and removed even while
- * iterating over the handled instances.
+ * iterating over the handled instances. Handlers themselves can be handled in order to form
+ * hierarchical handling groups.
  * @author Mikko Hilpinen
  * @since 20.10.2016
  */
-class Handler[T <: Handleable](val handlerType: HandlerType)
+class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
 {
+    // Handlers have a specific handling state for their own status
+    specifyHandlingState(handlerType)
+    
     // List for each task target object
     private val taskTargets = Task.values.foldLeft(Map.empty[Task.Value, ListBuffer[T]])(
             {(map, task) => map + (task -> new ListBuffer())});
@@ -44,6 +48,16 @@ class Handler[T <: Handleable](val handlerType: HandlerType)
      * The elements currently handled by this handler
      */
     def toList = list(Task.handle).toList
+    
+    /**
+     * The handler's handling state (whether the handler is being handled or not)
+     */
+    def handlingState: Boolean = handlingState(handlerType)
+    /**
+     * Changes this handler's handling state, making it active or disabled (when being handled by
+     * another handler)
+     */
+    def handlingState_=(state: Boolean) = specifyHandlingState(handlerType, state)
     
     /**
      * Adds elements to the handler if they don't exist there already
