@@ -90,7 +90,7 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
      * Removes the elements from the handler
      * @param elements The elements to be removed from this
      */
-    def -=(elements: T*) = addToTask(Task.remove, elements: _*)
+    def -=(elements: T*): Unit = addToTask(Task.remove, elements: _*)
     /**
      * Removes the elements in the provided collection from this handler
      * @param elements The elements to be removed from this
@@ -164,12 +164,13 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
      */
     def unsureAdd(element: Handleable) = 
     {
-        // Checks that the element is compatible, then casts it and adds it
-    	val B = ClassTag(handlerType.supportedClass)
-    			ClassTag(element.getClass) match {
-    				case B => this += element.asInstanceOf[T]; true
-    				case _ => false
-    	}
+        if (handlerType.supportsInstance(element))
+        {
+            this += element.asInstanceOf[T]
+            true
+        }
+        else
+            false
     }
     
     
