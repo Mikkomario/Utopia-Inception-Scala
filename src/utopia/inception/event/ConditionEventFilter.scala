@@ -8,15 +8,18 @@ import scala.collection.mutable.ArrayBuffer
  * @author Mikko Hilpinen
  * @since 17.10.2016
  */
-class ConditionEventFilter(val requiredIdentifiers: ArrayBuffer[Any] = ArrayBuffer[Any](), 
-		val forbiddenFeatures: ArrayBuffer[Any] = ArrayBuffer[Any]()) extends EventFilter
+class ConditionEventFilter(val required: Vector[Any] = Vector[Any](), 
+		val forbidden: Vector[Any] = Vector[Any]()) extends EventFilter
 {	
 	// IMPLEMENTED METHODS	-------
 	
 	override def includes(event: Event): Boolean = 
 	{
+	    // All of the required features must exist. None of the forbidden may
+	    // FIXME: There is a very high chance this is broken
+	    
 		// All required features must exist and none of the forbidden features may exist
-		event.identifiers.forall { identifier => requiredIdentifiers.contains(identifier) && 
-		    !forbiddenFeatures.contains(identifier) }
+		event.identifiers.forall { identifier => required.contains(identifier) && 
+		    !forbidden.contains(identifier) }
 	}
 }

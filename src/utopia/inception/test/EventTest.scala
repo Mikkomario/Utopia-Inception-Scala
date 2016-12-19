@@ -33,7 +33,7 @@ object EventTest
 		
 		val events = Array[TestEvent](event1, eventVar)
 		println(events.filter { event => filter(event) }.size)
-		println(filter(events).size)
+		//println(filter(events).size)
 		
 		
 		// Testing combined event filter

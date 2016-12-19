@@ -23,8 +23,12 @@ trait Event
 	override def toString() = 
 	{
 		var s = new StringBuilder()
-		this.identifiers.headOption.foreach { case (id, value) => s.append(s"$id = $value")}
-		this.identifiers.tail.foreach { case (id, value) => s.append(s", $id = $value") }
+		
+		if (!identifiers.isEmpty)
+		{
+		    this.identifiers.headOption.foreach { case (id, value) => s.append(s"$id = $value")}
+		    this.identifiers.tail.foreach { case (id, value) => s.append(s", $id = $value") }
+		}
 		
 		s.toString()
 	}

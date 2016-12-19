@@ -36,10 +36,11 @@ trait EventFilter
 	 * @param array The array that is filtered
 	 * @return The elements of the 'array' included by 'this'
 	 */
+	/*
 	def apply[E <: Event](array: Traversable[E])(implicit tag: ClassTag[E]): Traversable[E] =
 	{
 		array.filter { event => includes(event) }
-	}
+	}*/
 	
 	/**
 	 * Combines a set of filters into a combined filter. The filter will include the event if any of
