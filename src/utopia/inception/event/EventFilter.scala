@@ -1,10 +1,7 @@
 package utopia.inception.event
 
-import scala.reflect.ClassTag
-import scala.collection.mutable.ArrayBuffer
-
 /**
- * Event filters are used for filtering events that are of some importance to the user.
+ * Event filters are used for filtering events that are of importance to the user.
  * @author Mikko Hilpinen
  * @since 16.10.2016
  */
@@ -32,17 +29,6 @@ trait EventFilter
 	// OTHER METHODS	---------
 	
 	/**
-	 * Filters a collection of events and only includes the element accepted by this filter.
-	 * @param array The array that is filtered
-	 * @return The elements of the 'array' included by 'this'
-	 */
-	/*
-	def apply[E <: Event](array: Traversable[E])(implicit tag: ClassTag[E]): Traversable[E] =
-	{
-		array.filter { event => includes(event) }
-	}*/
-	
-	/**
 	 * Combines a set of filters into a combined filter. The filter will include the event if any of
 	 * the provided filters include the event
 	 * @param others The filters combined with 'this' to form a new filter
@@ -50,9 +36,7 @@ trait EventFilter
 	 */
 	def or(others: EventFilter*) =
 	{
-	    val filters = ArrayBuffer(this)
-	    filters.append(others: _*)
-	    
+	    val filters = Vector(this) ++: others
 	    new CombinedEventFilter(filters: _*)
 	}
 }

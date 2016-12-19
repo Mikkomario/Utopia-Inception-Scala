@@ -1,10 +1,12 @@
 package utopia.inception.event
 
+import utopia.flow.datastructure.immutable.Model
+import utopia.flow.datastructure.immutable.Constant
+
 /**
  * Event is a general trait implemented by all different events. Events can be distinguished from
- * other events based on their identifiers.
- * 
- * Events should always be immutable
+ * other events based on their identifiers. 
+ * Events should always be immutable and have value semantics
  * @author Mikko Hilpinen
  * @since 16.10.2016
  */
@@ -12,7 +14,7 @@ trait Event
 {
 	// REQUIRED ATTRIBUTES	--------
 	
-	val identifiers: Map[String, Any]
+	val identifiers: Model[Constant]
 	
 	
 	// IMPLEMENTATIONS	------------
@@ -20,16 +22,5 @@ trait Event
 	/**
 	 * @return A string version of the event's identifiers
 	 */
-	override def toString() = 
-	{
-		var s = new StringBuilder()
-		
-		if (!identifiers.isEmpty)
-		{
-		    this.identifiers.headOption.foreach { case (id, value) => s.append(s"$id = $value")}
-		    this.identifiers.tail.foreach { case (id, value) => s.append(s", $id = $value") }
-		}
-		
-		s.toString()
-	}
+	override def toString() = identifiers.toString()
 }
