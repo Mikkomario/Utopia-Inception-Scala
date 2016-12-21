@@ -5,7 +5,7 @@ package utopia.inception.handling
  * @author Mikko Hilpinen
  * @since 18.10.2016
  */
-trait Killable
+trait Mortal
 {
     private var _dead = false
     /**
@@ -17,5 +17,14 @@ trait Killable
     /**
      * The object is killed. This change is permanent and cannot be undone.
      */
-    def kill() = {_dead = true}
+    def kill() = _dead = true
+    
+    /*
+     * Use this to check in handler if the instance is mortal or immortal
+     * def myFunc2[T](t: T) = t match {
+	  case _: TraitA => println("A")
+	  case _: TraitB => println("B")
+	  case _ => println("?")
+	}
+     */
 }
