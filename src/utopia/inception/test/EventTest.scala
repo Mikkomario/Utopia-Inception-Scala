@@ -1,51 +1,42 @@
 package utopia.inception.test
 
 import utopia.inception.event.Event
+import utopia.inception.event.ConditionEventFilter
+import scala.collection.immutable.HashMap
+import utopia.flow.datastructure.immutable.Value
+import utopia.flow.generic.DataType
 
 /**
  * This test tests the test implementations of the abstract event features introduced in this
  * project
  */
-object EventTest
+object EventTest extends App
 {
-	def main(args: Array[String]): Unit = 
-	{
-	    // XXX Could be a lot better test. Just messing with these here
-		// Just testing event immutablility
-		
-		println("Test started.")
-		
-		val event1 = new TestEvent(1, "The first event")
-		
-		println(event1)
-		
-		var eventVar = event1
-		println("Initial event value", eventVar)
-		
-		eventVar = new TestEvent(2, "different event isntance")
-		println("Changed value", eventVar)
-		
-		
-		// Testing event filter(s)
-		val filter = new TestEventFilter(1)
-		println(filter(event1))
-		println(filter(eventVar))
-		
-		val events = Array[TestEvent](event1, eventVar)
-		println(events.filter { event => filter(event) }.size)
-		println(filter(events).size)
-		
-		
-		// Testing combined event filter
-		val filter2 = new TestEventFilter(2)
-		println(filter2(event1))
-		println(filter2(eventVar))
-		
-		val combinedFilter = filter.or(filter2)
-		println(combinedFilter(event1))
-		println(combinedFilter(eventVar))
-		
-		assert(combinedFilter(event1))
-		assert(combinedFilter(eventVar))
-	}
+    DataType.setup()
+    
+    // Creates a few test events
+    val event1 = new TestEvent(1, "Test1")
+    val event2 = new TestEvent(2, "Test2")
+    val event3 = new TestEvent(3, "Test3")
+    
+    assert(event1.identifiers.attributes.size == 2)
+    
+    // Creates a couple of filters
+    val require1 = new ConditionEventFilter(HashMap("index" -> Value.of(1)))
+    val not2 = new ConditionEventFilter(HashMap(), HashMap("index" -> Value.of(2)))
+    val combo = require1.or(not2)
+    
+    assert(require1(event1))
+    assert(!require1(event2))
+    assert(!require1(event3))
+    
+    assert(not2(event1))
+    assert(!not2(event2))
+    assert(not2(event3))
+    
+    assert(combo(event1))
+    assert(!combo(event2))
+    assert(combo(event3))
+    
+    println("Success!")
 }

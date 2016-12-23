@@ -10,9 +10,5 @@ class CombinedEventFilter(val filters: EventFilter*) extends EventFilter
 {
     // IMPLEMENTED METHODS    ----------
     
-    override def includes(event: Event): Boolean =
-    {
-        // Checks whether any of the specified filters includes the event
-        filters.find { filter => filter.includes(event) }.isDefined
-    }
+    override def includes(event: Event): Boolean = filters.exists { _.includes(event) }
 }
