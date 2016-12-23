@@ -14,7 +14,7 @@ object HandlingTest extends App
         amount
     }
     
-    val handlerType = TestHandlerType.instance
+    val handlerType = TestHandlerType
     
     val o1 = new TestObject()
     val o2 = new TestObject()
