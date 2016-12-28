@@ -114,6 +114,13 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
     def clear() = _elements = Vector()
     
     /**
+     * Sorts the contents of the handler using the specified sorting function
+     * @param orderer The function that determines whether the first element comes before the second 
+     * element in the new ordering
+     */
+    def sortWith(orderer: (T, T) => Boolean) = _elements = _elements.sortWith(orderer)
+    
+    /**
      * Absorbs the contents of another handler, removing the elements from that one and adding them 
      * to this one
      * @param other The handler that is emptied into this one
