@@ -22,8 +22,8 @@ object EventTest extends App
     assert(event1.identifiers.attributes.size == 2)
     
     // Creates a couple of filters
-    val require1 = new ConditionEventFilter(HashMap("index" -> Value.of(1)))
-    val not2 = new ConditionEventFilter(HashMap(), HashMap("index" -> Value.of(2)))
+    val require1 = new ConditionEventFilter[Event](HashMap("index" -> Value.of(1)))
+    val not2 = new ConditionEventFilter[Event](HashMap(), HashMap("index" -> Value.of(2)))
     val combo = require1.or(not2)
     
     assert(require1(event1))

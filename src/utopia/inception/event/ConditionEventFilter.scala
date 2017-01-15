@@ -9,14 +9,7 @@ import scala.collection.immutable.HashMap
  * @author Mikko Hilpinen
  * @since 17.10.2016
  */
-class ConditionEventFilter(val required: Map[String, Value] = HashMap(), 
-		val forbidden: Map[String, Value] = HashMap()) extends EventFilter
-{	
-	// IMPLEMENTED METHODS	-------
-	
-    // All of the required identifiers must exist. None of the required identifiers may exist
-	override def includes(event: Event): Boolean = 
+class ConditionEventFilter[T <: Event](val required: Map[String, Value] = HashMap(), 
+		val forbidden: Map[String, Value] = HashMap()) extends EventFilter[T]({ event => 
 	    required.forall { case (name, value) => event.identifiers(name) == value } && 
-	    forbidden.forall { case (name, value) => event.identifiers(name) != value}
-	
-}
+	    forbidden.forall { case (name, value) => event.identifiers(name) != value}})
