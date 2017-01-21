@@ -6,5 +6,5 @@ package utopia.inception.event
  * @author Mikko Hilpinen
  * @since 17.10.2016
  */
-class CombinedEventFilter[T <: Event](val filters: EventFilter[T]*) extends EventFilter[T]({ 
+class OrEventFilter[T <: Event](val filters: EventFilter[T]*) extends EventFilter[T]({ 
         event => filters.exists { _.includes(event) } })

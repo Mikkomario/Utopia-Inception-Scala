@@ -28,6 +28,6 @@ class EventFilter[T <: Event](val includes: T => Boolean)
 	def or(others: EventFilter[T]*) =
 	{
 	    val filters = Vector(this) ++: others
-	    new CombinedEventFilter(filters: _*)
+	    new OrEventFilter(filters: _*)
 	}
 }
