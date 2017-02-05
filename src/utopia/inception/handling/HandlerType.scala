@@ -15,12 +15,5 @@ class HandlerType(val supportedClass: Class[_])
      * If returns true, it is safe to cast the element into that supported class.
      * @return is the provided element an instance of the class supported by this handler type
      */
-    def supportsInstance(element: Handleable) = 
-    {
-        val B = ClassTag(supportedClass)
-    			ClassTag(element.getClass) match {
-    				case B => true
-    				case _ => false
-    	}
-    }
+    def supportsInstance(element: Handleable) = supportedClass.isInstance(element)
 }
