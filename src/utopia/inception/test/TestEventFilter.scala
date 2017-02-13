@@ -1,7 +1,5 @@
 package utopia.inception.test
 
-import utopia.inception.event.EventFilter
-import utopia.inception.event.Event
+import utopia.inception.event.Filter
 
-class TestEventFilter[T <: Event](val requiredId: Int) extends EventFilter[T](
-        { event => event.identifiers("index") == requiredId })
+class TestEventFilter(val requiredId: Int) extends Filter[TestEvent]({ _.index == requiredId })

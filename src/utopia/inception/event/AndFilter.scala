@@ -5,5 +5,4 @@ package utopia.inception.event
  * @author Mikko Hilpinen
  * @since 21.1.2017
  */
-class AndEventFilter[T <: Event](val filters: EventFilter[T]*) extends EventFilter[T](
-        { event => filters.forall { _(event) } })
+class AndFilter[T](val filters: Filter[T]*) extends Filter[T]({ event => filters.forall { _(event) } })

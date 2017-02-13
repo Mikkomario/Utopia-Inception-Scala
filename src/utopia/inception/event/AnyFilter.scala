@@ -5,4 +5,4 @@ package utopia.inception.event
  * @author Mikko Hilpinen
  * @since 21.1.2017
  */
-class AnyEventFilter[T <: Event] extends EventFilter[T]({ _ => true })
+class AnyFilter[T] extends Filter[T]({ _ => true })
