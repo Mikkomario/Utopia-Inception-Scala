@@ -1,4 +1,4 @@
-package utopia.inception.event
+package utopia.inception.util
 
 /**
  * Event filters are used for filtering elements that are of importance to the user. Functions 

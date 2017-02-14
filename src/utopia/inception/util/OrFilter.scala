@@ -1,4 +1,4 @@
-package utopia.inception.event
+package utopia.inception.util
 
 /**
  * This filter uses multiple filters creating a logical OR statement. The filter accepts an 

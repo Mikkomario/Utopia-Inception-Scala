@@ -1,4 +1,4 @@
-package utopia.inception.event
+package utopia.inception.util
 
 /**
  * This event filter will accept any kind of event
