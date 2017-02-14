@@ -1,21 +1,14 @@
 package utopia.inception.event
 
 /**
- * Event filters are used for filtering events that are of importance to the user.
+ * Event filters are used for filtering elements that are of importance to the user. Functions 
+ * usually work better in simple use cases but Filter instances may be used in more dynamic
+ * solutions.
  * @author Mikko Hilpinen
  * @since 16.10.2016
  */
-trait EventFilter
+class Filter[T](val includes: T => Boolean)
 {
-	// REQUIRED METHODS	---------
-	
-	/**
-	 * Checks whether the filter would include the provided event
-	 * @return Does the filter include the event
-	 */
-	def includes(event: Event): Boolean
-	
-	
 	// OPERATORS	-------------
 	
 	/**
@@ -23,7 +16,7 @@ trait EventFilter
 	 * @param event the event that is being evaluated
 	 * @return does the filter accept / include 'element'
 	 */
-	def apply(event: Event) = includes(event)
+	def apply(event: T) = includes(event)
 	
 	
 	// OTHER METHODS	---------
@@ -34,9 +27,9 @@ trait EventFilter
 	 * @param others The filters combined with 'this' to form a new filter
 	 * @return The combined filter
 	 */
-	def or(others: EventFilter*) =
+	def or(others: Filter[T]*) =
 	{
 	    val filters = Vector(this) ++: others
-	    new CombinedEventFilter(filters: _*)
+	    new OrFilter(filters: _*)
 	}
 }

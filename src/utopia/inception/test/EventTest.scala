@@ -1,29 +1,22 @@
 package utopia.inception.test
 
-import utopia.inception.event.Event
-import utopia.inception.event.ConditionEventFilter
 import scala.collection.immutable.HashMap
-import utopia.flow.datastructure.immutable.Value
-import utopia.flow.generic.DataType
+import utopia.inception.event.Filter
 
 /**
  * This test tests the test implementations of the abstract event features introduced in this
  * project
  */
 object EventTest extends App
-{
-    DataType.setup()
-    
+{   
     // Creates a few test events
     val event1 = new TestEvent(1, "Test1")
     val event2 = new TestEvent(2, "Test2")
     val event3 = new TestEvent(3, "Test3")
     
-    assert(event1.identifiers.attributes.size == 2)
-    
     // Creates a couple of filters
-    val require1 = new ConditionEventFilter(HashMap("index" -> Value.of(1)))
-    val not2 = new ConditionEventFilter(HashMap(), HashMap("index" -> Value.of(2)))
+    val require1 = new TestEventFilter(1)
+    val not2 = new Filter[TestEvent]({ _.index != 2 })
     val combo = require1.or(not2)
     
     assert(require1(event1))

@@ -35,7 +35,7 @@ private object Task extends Enumeration
  * @deprecated The handler implementation has been written using immutable data structures. This 
  * is here simply for future reference and will be removed
  */
-@deprecated
+@deprecated("Replaced with a new, very similar handler class.", "v.1.2.0.0")
 class HandlerOld[T <: Handleable](val handlerType: HandlerType) extends Handleable
 {
     // INITIAL CODE    ---------------
