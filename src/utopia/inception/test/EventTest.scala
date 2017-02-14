@@ -1,7 +1,7 @@
 package utopia.inception.test
 
 import scala.collection.immutable.HashMap
-import utopia.inception.event.Filter
+import utopia.inception.util.Filter
 
 /**
  * This test tests the test implementations of the abstract event features introduced in this
