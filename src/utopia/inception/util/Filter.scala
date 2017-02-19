@@ -7,7 +7,7 @@ package utopia.inception.util
  * @author Mikko Hilpinen
  * @since 16.10.2016
  */
-class Filter[T](val includes: T => Boolean)
+class Filter[-T](val includes: T => Boolean)
 {
 	// OPERATORS	-------------
 	
@@ -27,7 +27,7 @@ class Filter[T](val includes: T => Boolean)
 	 * @param others The filters combined with 'this' to form a new filter
 	 * @return The combined filter
 	 */
-	def or(others: Filter[T]*) =
+	def or[U <: T](others: Filter[U]*) =
 	{
 	    val filters = Vector(this) ++: others
 	    new OrFilter(filters: _*)
