@@ -5,4 +5,4 @@ package utopia.inception.util
  * @author Mikko Hilpinen
  * @since 21.1.2017
  */
-class AnyFilter[T] extends Filter[T]({ _ => true })
+object AnyFilter extends Filter[Any]({ _ => true })
