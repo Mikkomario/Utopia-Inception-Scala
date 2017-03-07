@@ -84,6 +84,7 @@ class HandlerRelay
      */
     def register(handlers: AnyHandler*) = {
         _handlers ++= handlers.map { handler => handler.handlerType -> handler }}
+    
     /**
      * Adds a number of handlers to this relay. If any handlers are overwritten, they are killed 
      * so that they won't be handled any longer
@@ -96,6 +97,7 @@ class HandlerRelay
             handler => handler.kill() }
         register(handlers: _*)
     }
+    
     /**
      * Removes one or more handlers from the handlers registered to this relay
      */
@@ -106,5 +108,6 @@ class HandlerRelay
      * Changes the handling state of each of the handlers in this relay
      * @param enabled The new handling state for the handlers
      */
-    def setEnabled(enabled: Boolean) = handlers.values.foreach { handler => handler.handlingState = enabled }
+    def setEnabled(enabled: Boolean) = handlers.values.foreach { 
+        handler => handler.handlingState = enabled };
 }
