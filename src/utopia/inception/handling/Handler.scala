@@ -46,16 +46,16 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
      * Adds a new element to the handler if they don't exist there already
      * @param elements The elements to be added to this handler
      */
-    def +=(element: T) = if (!elements.contains(element)) _elements :+= element
+    def +=[U <: T](element: U) = if (!elements.contains(element)) _elements :+= element
     /**
      * Adds the contents of a collection to this handler
      * @param elements The elements to be added to this handler
      */
-    def ++=(added: Traversable[T]) = _elements ++= added.filterNot { elements.contains(_) }
+    def ++=[U <: T](added: Traversable[U]) = _elements ++= added.filterNot { elements.contains(_) }
     /**
      * Adds two or more elements to this handler
      */
-    def ++=(first: T, second: T, more: T*): Unit = this ++= more :+ first :+ second
+    def ++=[U <: T](first: U, second: U, more: U*): Unit = this ++= more :+ first :+ second
     
     /**
      * Removes an element from the handler
@@ -99,7 +99,7 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
      * @param operation The operation performed over the elements. Returns whether the loop should
      * break (false) or continue (true)
      */
-    def foreach(checkHandlingState: Boolean, operation: T => Boolean) = 
+    def foreach[U >: T](checkHandlingState: Boolean, operation: U => Boolean) = 
     {
         // Clears the dead elements first
         _elements = elements.filterNot { _.isDead }
@@ -118,14 +118,14 @@ class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
      * @param orderer The function that determines whether the first element comes before the second 
      * element in the new ordering
      */
-    def sortWith(orderer: (T, T) => Boolean) = _elements = _elements.sortWith(orderer)
+    def sortWith[U >: T](orderer: (U, U) => Boolean) = _elements = _elements.sortWith(orderer)
     
     /**
      * Absorbs the contents of another handler, removing the elements from that one and adding them 
      * to this one
      * @param other The handler that is emptied into this one
      */
-    def absorb(other: Handler[T]) = 
+    def absorb[U <: T](other: Handler[U]) = 
     {
         val moved = other.elements
         other --= moved
