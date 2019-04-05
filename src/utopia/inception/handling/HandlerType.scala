@@ -1,15 +1,18 @@
 package utopia.inception.handling
 
-import scala.reflect.ClassTag
-
 /**
  * There are different handlers with different functions. Each handler type supports objects of 
  * certain type
  * @author Mikko Hilpinen
  * @since 19.10.2016
  */
-class HandlerType(val supportedClass: Class[_])
+trait HandlerType extends Equals
 {
+    /**
+      * @return The class supported by this handler type
+      */
+    def supportedClass: Class[_]
+    
    /**
      * Checks whether the provided instance is supported by this handler type.
      * If returns true, it is safe to cast the element into that supported class.

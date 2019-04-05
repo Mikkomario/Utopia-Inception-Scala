@@ -1,134 +1,107 @@
 package utopia.inception.handling
 
-/**
- * Handler classes operate over a number of handleable objects, performing some operations on them.
- * Handler is safe to use in multithread environments. Elements can be added and removed while
- * iterating over the handled instances. Handlers themselves can be handled in order to form
- * hierarchical handling groups.
- * @author Mikko Hilpinen
- * @since 20.10.2016 (Rewritten: 21.12.2016)
- */
-class Handler[T <: Handleable](val handlerType: HandlerType) extends Handleable
+import utopia.flow.util.CollectionExtensions._
+
+object Handler
 {
-    // INITIAL CODE    ---------------
-    
-    // Handlers have a specific handling state for their own status
-    specifyHandlingState(handlerType)
-    
-    private var _elements = Vector[T]()
-    /**
-     * The elements handled by this handler
-     */
-    def elements = _elements
-    
-    
-    // CONSTRUCTOR OVERLOAD    ------
-    
-    def this(handlerType: HandlerType, elements: T*) = { this(handlerType); this ++= elements }
-    
-    
-    // HANDLEABLE INTERFACE    -----
-    
-    /**
-     * The handler's handling state (whether the handler is being handled or not)
-     */
-    def handlingState: Boolean = handlingState(handlerType)
-    /**
-     * Changes this handler's handling state, making it active or disabled (when being handled by
-     * another handler)
-     */
-    def handlingState_=(state: Boolean) = specifyHandlingState(handlerType, state)
-    
-    
-    // OPERATORS    -----------------
-    
-    /**
-     * Adds a new element to the handler if they don't exist there already
-     * @param elements The elements to be added to this handler
-     */
-    def +=[U <: T](element: U) = if (!elements.contains(element)) _elements :+= element
-    /**
-     * Adds the contents of a collection to this handler
-     * @param elements The elements to be added to this handler
-     */
-    def ++=[U <: T](added: Traversable[U]) = _elements ++= added.filterNot { elements.contains(_) }
-    /**
-     * Adds two or more elements to this handler
-     */
-    def ++=[U <: T](first: U, second: U, more: U*): Unit = this ++= more :+ first :+ second
-    
-    /**
-     * Removes an element from the handler
-     * @param elements The element to be removed from this handler
-     */
-    def -=(element: Handleable): Unit = _elements = elements.filterNot { _ == element }
-    /**
-     * Removes the provided elements from this handler
-     * @param elements The elements to be removed from this handler
-     */
-    def --=(removed: Traversable[Handleable]) = _elements = elements.filterNot { 
-        element => removed.exists { _ == element } }
-    /**
-     * Removes two or more elements from this handler
-     */
-    def --=(first: Handleable, second: Handleable, more: Handleable*): Unit = this --= more :+ first :+ second
-    
-    /**
-     * Adds a new element to this handler, provided that it's of correct type. If the element is 
-     * not of supported type, it won't be added
-     * @param element The element that is being added to this handler
-     * @return Was the element suitable to be used by this handler
-     */
-    def ?+=(element: Handleable) = 
-    {
-        if (handlerType.supportsInstance(element))
-        {
-            this += element.asInstanceOf[T]
-            true
-        }
-        else
-            false
-    }
-    
-    
-    // OTHER METHODS    ----------
-    
-    /**
-     * Performs an operation over each of the elements inside this handler
-     * @param checkHandlingState Should the call be limited to elements with handling state true
-     * @param operation The operation performed over the elements. Returns whether the loop should
-     * break (false) or continue (true)
-     */
-    def foreach[U >: T](checkHandlingState: Boolean, operation: U => Boolean) = 
-    {
-        // Clears the dead elements first
-        _elements = elements.filterNot { _.isDead }
-        
-        // Operates on the elements until the sequence is broken or elements end
-        elements.find { element => element.handlingState(handlerType) && !operation(element) }
-    }
-    
-    /**
-     * Clears the handler of all elements
-     */
-    def clear() = _elements = Vector()
-    
-    /**
-     * Sorts the contents of the handler using the specified sorting function
-     * @param orderer The function that determines whether the first element comes before the second 
-     * element in the new ordering
-     */
-    def sortWith[U >: T](orderer: (U, U) => Boolean) = _elements = _elements.sortWith(orderer)
-    
-    /**
-     * Absorbs the contents of another handler, removing the elements from that one and adding them 
-     * to this one
-     * @param other The handler that is emptied into this one
-     */
-    def absorb[U <: T](other: Handler[U]) = 
-    {
-        val moved = other.elements
-        other --= moved
-        this ++= moved
-    }
+	implicit class HandleableHandler[A](val h: Handler[A] with Handleable) extends AnyVal
+	{
+		/**
+		  * @return Whether this handler should be called on events of it's own type
+		  */
+		def handlingState = h.allowsHandlingFrom(h.handlerType)
+	}
+	
+	implicit class MutableHandleableHandler[A](val h: Handler[A] with mutable.Handleable) extends AnyVal
+	{
+		/**
+		  * Specifies the handler's own handling state
+		  * @param newState Whether this handler should be called on events of it's own type
+		  */
+		def handlingState_=(newState: Boolean) = h.specifyHandlingState(h.handlerType, newState)
+	}
+}
+
+/**
+  * Handlers offer an interface for interacting with multiple handleable instances at once
+  * @tparam A The type of instance handled by this handler. Needs to be supported by the specified handler type
+  * @author Mikko Hilpinen
+  * @since 5.4.2019, v2+
+  */
+trait Handler[A <: Handleable] extends Iterable[A]
+{
+	// ABSTRACT	---------------------
+	
+	/**
+	  * @return The type of this handler
+	  */
+	def handlerType: HandlerType
+	
+	/**
+	  * @return The contents of this handler. Should contain only elements that wish to remain in this handler
+	  * @see considerDead(Handleable)
+	  */
+	def aliveElements: Seq[A]
+	
+	
+	// IMPLEMENTED	----------------
+	
+	override def foreach[U](f: A => U) = aliveElements.foreach(f)
+	
+	override def seq = aliveElements
+	
+	override def isEmpty = aliveElements.isEmpty
+	
+	override def iterator = aliveElements.iterator
+	
+	
+	// OTHER	---------------------
+	
+	/**
+	  * @param element A target element
+	  * @return Whether the specified element should be removed from this handler, whether not already
+	  */
+	def considersDead(element: Handleable): Boolean = element.parent.exists(considersDead) || (element match
+	{
+		case mortal: Mortal => mortal.isDead
+		case _ => false
+	})
+	
+	/**
+	  * @param element A target element
+	  * @return Whether the specified element allows being handled by this handler at this time. The caller may
+	  * disregard this plea, however.
+	  */
+	def allowsHandling(element: Handleable): Boolean = element.parent.forall(allowsHandling) && element.allowsHandlingFrom(handlerType)
+	
+	/**
+	  * A view for handling operations, may take into account target element's desire to not allow handling
+	  * @param allowSkip Whether target element's desire to not be handled should be respected
+	  * @return A view of target elements (or all elements if allowSkip = false)
+	  */
+	def handleView(allowSkip: Boolean = true) = if (allowSkip) aliveElements.view.filter(allowsHandling) else aliveElements
+	
+	/**
+	  * Performs a certain operation for all target elements
+	  * @param operation Operation that takes a single element
+	  * @param allowSkip Whether target element's desire to not be handled should be respected
+	  * @tparam U Arbitary type
+	  */
+	def handle[U](operation: A => U, allowSkip: Boolean = true) = handleView(allowSkip).foreach(operation)
+	
+	/**
+	  * Performs an operation for all targets while a condition is met
+	  * @param operation An operation for a single element that also returns whether the next element should be accepted
+	  * @param allowSkip Whether target element's desire to not be handled should be respected
+	  */
+	def handleWhile(operation: A => Boolean, allowSkip: Boolean = true) { handleView(allowSkip).find { !operation(_) } }
+	
+	/**
+	  * Performs an operation on the target items until a suitable result is found
+	  * @param operation Operation that takes a single element and returns possible result
+	  * @param allowSkip Whether target element's desire to not be handled should be respected
+	  * @tparam B The result type
+	  * @return The (first) successful result or None
+	  */
+	def mapFirst[B](operation: A => Option[B], allowSkip: Boolean = true) = handleView(allowSkip).findMap(operation)
 }

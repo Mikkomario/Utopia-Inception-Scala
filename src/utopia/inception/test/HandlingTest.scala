@@ -1,9 +1,9 @@
 package utopia.inception.test
 
 import scala.reflect.ClassTag
-import utopia.inception.handling.Handleable
 import utopia.inception.handling.HandlerRelay
 import utopia.inception.handling.Handler
+import utopia.inception.handling.mutable.{Handleable, Handler, HandlerRelay}
 
 object HandlingTest extends App
 {

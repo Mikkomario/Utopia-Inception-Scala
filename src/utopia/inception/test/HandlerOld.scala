@@ -1,8 +1,8 @@
 package utopia.inception.test
 
 import scala.collection.mutable.ListBuffer
-import utopia.inception.handling.Handleable
 import utopia.inception.handling.HandlerType
+import utopia.inception.handling.mutable.Handleable
 
 /*
 object Handler

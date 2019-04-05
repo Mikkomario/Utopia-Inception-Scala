@@ -1,0 +1,53 @@
+package utopia.inception.handling.immutable
+
+import utopia.flow.collection.VolatileList
+import utopia.inception.handling.{Handleable, HandlerType}
+
+object Handler
+{
+	/**
+	  * Creates a new handler with specified elements
+	  * @param handlerType The type of the handler
+	  * @param elements The elements added to the handler (default = empty)
+	  * @tparam A The handled elements
+	  * @return A new handler with specified elements
+	  */
+	def apply[A <: Handleable](handlerType: HandlerType, elements: TraversableOnce[A] = Vector()) = new Handler(handlerType, elements)
+	
+	/**
+	  * Creates a new handler with a single element
+	  * @param handlerType The type of the handler
+	  * @param element The element to be put to the handler
+	  * @tparam A The element type
+	  * @return A handler with a single element
+	  */
+	def apply[A <: Handleable](handlerType: HandlerType, element: A): Handler[A] = apply(handlerType, Vector(element))
+	
+	/**
+	  * @param handlerType The type of the handler
+	  * @param first The first element
+	  * @param second The second element
+	  * @param more More elements
+	  * @tparam A Element type
+	  * @return A handler with all provided elements
+	  */
+	def apply[A <: Handleable](handlerType: HandlerType, first: A, second: A, more: A*): Handler[A] = apply(handlerType, Vector(first, second) ++ more)
+}
+
+/**
+  * This is an immutable implementation of the Handler trait. This handler is safe to use in multithreaded environments.
+  * @author Mikko Hilpinen
+  * @since 5.4.2019, v2+
+  */
+class Handler[A <: Handleable](val handlerType: HandlerType, initialElements: TraversableOnce[A])
+	extends utopia.inception.handling.Handler[A]
+{
+	// ATTRIBUTES	--------------------
+	
+	private val elements = VolatileList(initialElements)
+	
+	
+	// IMPLEMENTED	--------------------
+	
+	override def aliveElements = elements.updateAndGet { _.filterNot(considersDead) }
+}
