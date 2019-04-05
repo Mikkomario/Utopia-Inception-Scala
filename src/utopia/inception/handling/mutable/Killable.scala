@@ -24,5 +24,5 @@ trait Killable extends Mortal
 	/**
 	  * Kills this instance, resulting in instant death
 	  */
-	def kill() = _dead = false
+	def kill() = _dead = true
 }

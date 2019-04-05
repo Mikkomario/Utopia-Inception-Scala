@@ -1,7 +1,17 @@
 package utopia.inception.handling.mutable
 
+import utopia.inception.handling.HandlerType
+import utopia.inception.handling.mutable.HandlerRelay.AnyHandler
+
 object HandlerRelay
 {
+    // TYPES    -------------------
+    
+    type AnyHandler = Handler[_ <: Handleable]
+    
+    
+    // OPERATORS    ---------------
+    
     /**
       * @return A new empty relay
       */
@@ -11,13 +21,13 @@ object HandlerRelay
       * @param handlers Handlers
       * @return A relay with specified handlers
       */
-    def apply(handlers: TraversableOnce[Handler[_]]) = new HandlerRelay(handlers)
+    def apply(handlers: TraversableOnce[AnyHandler]) = new HandlerRelay(handlers)
     
     /**
       * @param handler A handler
       * @return A relay with the provided handler
       */
-    def apply(handler: Handler[_]) = new HandlerRelay(Vector(handler))
+    def apply(handler: AnyHandler) = new HandlerRelay(Vector(handler))
     
     /**
       * @param first A handler
@@ -25,7 +35,7 @@ object HandlerRelay
       * @param more More handlers
       * @return A relay with all the provided handlers
       */
-    def apply(first: Handler[_], second: Handler[_], more: Handler[_]*) = new HandlerRelay(Vector(first, second) ++ more)
+    def apply(first: AnyHandler, second: AnyHandler, more: AnyHandler*) = new HandlerRelay(Vector(first, second) ++ more)
 }
 
 /**
@@ -34,11 +44,11 @@ object HandlerRelay
  * @author Mikko Hilpinen
  * @since 22.10.2016
  */
-class HandlerRelay(initialHandlers: TraversableOnce[Handler[_]])
+class HandlerRelay(initialHandlers: TraversableOnce[AnyHandler])
 {
     // ATTRIBUTES    --------------
     
-    private var _handlers = initialHandlers.map { h => h.handlerType -> h }.toMap
+    private var _handlers: Map[HandlerType, AnyHandler] = initialHandlers.map { h => h.handlerType -> h }.toMap
     
     /**
       * @return A mapping of handlers, each tied to their handler type
@@ -99,14 +109,14 @@ class HandlerRelay(initialHandlers: TraversableOnce[Handler[_]])
       * that will be replaced with this new one
       * @param handler A new handler
       */
-    def register(handler: Handler[_]) = _handlers += handler.handlerType -> handler
+    def register(handler: AnyHandler) = _handlers += handler.handlerType -> handler
     
-    def register(handlers: TraversableOnce[Handler[_]]) = _handlers ++= handlers.map { h => h.handlerType -> h }
+    def register(handlers: TraversableOnce[AnyHandler]) = _handlers ++= handlers.map { h => h.handlerType -> h }
     
-    def register(first: Handler[_], second: Handler[_], more: Handler[_]*): Unit = register(Vector(first, second) ++ more)
+    def register(first: AnyHandler, second: AnyHandler, more: AnyHandler*): Unit = register(Vector(first, second) ++ more)
     
-    def remove(handler: Handler[_]) = _handlers = _handlers.filterNot { case (_, existing) => existing == handler }
+    def remove(handler: AnyHandler) = _handlers = _handlers.filterNot { case (_, existing) => existing == handler }
     
-    def remove(handlers: Traversable[Handler[_]]) = _handlers = _handlers.filterNot {
+    def remove(handlers: Traversable[AnyHandler]) = _handlers = _handlers.filterNot {
             case (_, existing) => handlers.exists { _ == existing } }
 }

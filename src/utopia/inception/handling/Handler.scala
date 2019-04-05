@@ -4,7 +4,7 @@ import utopia.flow.util.CollectionExtensions._
 
 object Handler
 {
-	implicit class HandleableHandler[A](val h: Handler[A] with Handleable) extends AnyVal
+	implicit class HandleableHandler[A <: Handleable](val h: Handler[A] with Handleable) extends AnyVal
 	{
 		/**
 		  * @return Whether this handler should be called on events of it's own type
@@ -12,7 +12,7 @@ object Handler
 		def handlingState = h.allowsHandlingFrom(h.handlerType)
 	}
 	
-	implicit class MutableHandleableHandler[A](val h: Handler[A] with mutable.Handleable) extends AnyVal
+	implicit class MutableHandleableHandler[A <: Handleable](val h: Handler[A] with mutable.Handleable) extends AnyVal
 	{
 		/**
 		  * Specifies the handler's own handling state

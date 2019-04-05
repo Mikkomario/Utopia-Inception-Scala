@@ -92,7 +92,7 @@ class Handler[A <: handling.Handleable](val handlerType: HandlerType, initialEle
       * @param ordering The ordering used for sorting the elements
       * @tparam B The type of object accepted by the ordering
       */
-    def sort[B >: A]()(implicit ordering: Ordering[B]) = elements.update { _.sorted }
+    def sort[B >: A]()(implicit ordering: Ordering[B]) = elements.update { _.sorted(ordering) }
     
     /**
      * Sorts the contents of this handler using the specified sorting function
