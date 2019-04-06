@@ -7,7 +7,10 @@ import utopia.inception.handling.HandlerType
 
 object Handler
 {
-    def apply[A <: handling.Handleable](handlerType: HandlerType, elements: TraversableOnce[A] = Vector()) = new Handler(handlerType, elements)
+    def apply[A <: handling.Handleable](hType: HandlerType, elements: TraversableOnce[A] = Vector()) = new Handler(elements)
+    {
+        val handlerType = hType
+    }
     
     def apply[A <: handling.Handleable](handlerType: HandlerType, element: A): Handler[A] = apply(handlerType, Vector(element))
     
@@ -20,7 +23,7 @@ object Handler
  * @since 20.10.2016 (Rewritten: 5.4.2019, v2+)
   * @tparam A The type of object handled by this handler
  */
-class Handler[A <: handling.Handleable](val handlerType: HandlerType, initialElements: TraversableOnce[A]) extends handling.Handler[A]
+abstract class Handler[A <: handling.Handleable](initialElements: TraversableOnce[A]) extends handling.Handler[A]
 {
     // ATTRIBUTES   -------------------
     

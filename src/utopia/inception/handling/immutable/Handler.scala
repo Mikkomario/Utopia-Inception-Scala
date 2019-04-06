@@ -7,12 +7,15 @@ object Handler
 {
 	/**
 	  * Creates a new handler with specified elements
-	  * @param handlerType The type of the handler
+	  * @param hType The type of the handler
 	  * @param elements The elements added to the handler (default = empty)
 	  * @tparam A The handled elements
 	  * @return A new handler with specified elements
 	  */
-	def apply[A <: Handleable](handlerType: HandlerType, elements: TraversableOnce[A] = Vector()) = new Handler(handlerType, elements)
+	def apply[A <: Handleable](hType: HandlerType, elements: TraversableOnce[A] = Vector()) = new Handler(elements)
+	{
+		val handlerType = hType
+	}
 	
 	/**
 	  * Creates a new handler with a single element
@@ -39,8 +42,7 @@ object Handler
   * @author Mikko Hilpinen
   * @since 5.4.2019, v2+
   */
-class Handler[A <: Handleable](val handlerType: HandlerType, initialElements: TraversableOnce[A])
-	extends utopia.inception.handling.Handler[A]
+abstract class Handler[A <: Handleable](initialElements: TraversableOnce[A]) extends utopia.inception.handling.Handler[A]
 {
 	// ATTRIBUTES	--------------------
 	

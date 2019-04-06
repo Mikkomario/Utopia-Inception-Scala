@@ -28,7 +28,7 @@ object HandlingTest extends App
     assert(!o1.handlingState(handlerType))
     assert(o1.defaultHandlingState)
     
-    val handler1 = mutable.Handler[TestObject](handlerType)
+    val handler1: mutable.Handler[TestObject] = mutable.Handler[TestObject](TestHandlerType)
     val relay = HandlerRelay(handler1)
     
     assert(relay.handlers.nonEmpty)
