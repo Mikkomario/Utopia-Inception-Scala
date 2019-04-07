@@ -71,7 +71,7 @@ abstract class Handler[A <: handling.Handleable](initialElements: TraversableOnc
      * @param element The element that is being added to this handler
      * @return Was the element suitable to be used by this handler
      */
-    def ?+=(element: Handleable) = 
+    def ?+=(element: handling.Handleable) =
     {
         if (handlerType.supportsInstance(element))
         {

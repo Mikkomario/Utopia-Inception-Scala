@@ -1,10 +1,12 @@
 package utopia.inception.handling.immutable
 
 import utopia.flow.collection.VolatileList
-import utopia.inception.handling.{Handleable, HandlerType}
+import utopia.inception.handling.HandlerType
 
 object Handler
 {
+	type Handleable = utopia.inception.handling.Handleable
+	
 	/**
 	  * Creates a new handler with specified elements
 	  * @param hType The type of the handler
@@ -42,7 +44,8 @@ object Handler
   * @author Mikko Hilpinen
   * @since 5.4.2019, v2+
   */
-abstract class Handler[A <: Handleable](initialElements: TraversableOnce[A]) extends utopia.inception.handling.Handler[A]
+abstract class Handler[A <: utopia.inception.handling.Handleable](initialElements: TraversableOnce[A])
+	extends utopia.inception.handling.Handler[A]
 {
 	// ATTRIBUTES	--------------------
 	

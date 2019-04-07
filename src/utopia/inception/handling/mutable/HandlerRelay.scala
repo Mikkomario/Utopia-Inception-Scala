@@ -7,6 +7,7 @@ object HandlerRelay
 {
     // TYPES    -------------------
     
+    type Handleable = utopia.inception.handling.Handleable
     type AnyHandler = Handler[_ <: Handleable]
     
     
@@ -46,6 +47,11 @@ object HandlerRelay
  */
 class HandlerRelay(initialHandlers: TraversableOnce[AnyHandler])
 {
+    // TYPES    -------------------
+    
+    type Handleable = HandlerRelay.Handleable
+    
+    
     // ATTRIBUTES    --------------
     
     private var _handlers: Map[HandlerType, AnyHandler] = initialHandlers.map { h => h.handlerType -> h }.toMap
