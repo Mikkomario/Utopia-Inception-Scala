@@ -1,7 +1,7 @@
 package utopia.inception.handling.immutable
 
 import utopia.flow.collection.VolatileList
-import utopia.inception.handling.HandlerType
+import utopia.inception.handling.{HandlerType, Mortal}
 
 object Handler
 {
@@ -45,7 +45,7 @@ object Handler
   * @since 5.4.2019, v2+
   */
 abstract class Handler[A <: utopia.inception.handling.Handleable](initialElements: TraversableOnce[A])
-	extends utopia.inception.handling.Handler[A]
+	extends utopia.inception.handling.Handler[A] with Mortal
 {
 	// ATTRIBUTES	--------------------
 	
@@ -55,4 +55,7 @@ abstract class Handler[A <: utopia.inception.handling.Handleable](initialElement
 	// IMPLEMENTED	--------------------
 	
 	override def aliveElements = elements.updateAndGet { _.filterNot(considersDead) }
+	
+	// Immutable handlers die once they get empty, since an empty handler has no purpose
+	override def isDead = aliveElements.isEmpty
 }
