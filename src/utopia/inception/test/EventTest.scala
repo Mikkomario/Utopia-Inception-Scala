@@ -1,6 +1,5 @@
 package utopia.inception.test
 
-import scala.collection.immutable.HashMap
 import utopia.inception.util.Filter
 
 /**
@@ -16,8 +15,8 @@ object EventTest extends App
     
     // Creates a couple of filters
     val require1 = new TestEventFilter(1)
-    val not2 = new Filter[TestEvent]({ _.index != 2 })
-    val combo = require1.or(not2)
+    val not2: Filter[TestEvent] = e => e.index != 2
+    val combo = require1 || not2
     
     assert(require1(event1))
     assert(!require1(event2))

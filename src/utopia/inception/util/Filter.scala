@@ -1,35 +1,68 @@
 package utopia.inception.util
 
+import scala.language.implicitConversions
+
+object Filter
+{
+	implicit def functionAsFilter[T](f: T => Boolean): Filter[T] = (item: T) => f(item)
+}
+
 /**
- * Event filters are used for filtering elements that are of importance to the user. Functions 
+ * Filters are used for filtering elements that are of importance to the user. Functions
  * usually work better in simple use cases but Filter instances may be used in more dynamic
  * solutions.
  * @author Mikko Hilpinen
- * @since 16.10.2016
+ * @since 16.10.2016 (Rewritten: 5.4.2019, v2+)
  */
-class Filter[-T](val includes: T => Boolean)
+trait Filter[-T]
 {
-	// OPERATORS	-------------
+	// ABSTRACT	------------------
 	
 	/**
-	 * Applies 'this' filter over the 'event'
-	 * @param event the event that is being evaluated
+	 * Applies 'this' filter over the 'item'
+	 * @param item the event that is being evaluated
 	 * @return does the filter accept / include 'element'
 	 */
-	def apply(event: T) = includes(event)
+	def apply(item: T): Boolean
 	
 	
-	// OTHER METHODS	---------
+	// OPERATORS	---------------
 	
 	/**
-	 * Combines a set of filters into a combined filter. The filter will include the event if any of
-	 * the provided filters include the event
-	 * @param others The filters combined with 'this' to form a new filter
-	 * @return The combined filter
-	 */
-	def or[U <: T](others: Filter[U]*) =
-	{
-	    val filters = Vector(this) ++: others
-	    new OrFilter(filters: _*)
-	}
+	  * @return A negation of this filter
+	  */
+	def unary_! = NotFilter(this)
+	
+	/**
+	  * @param other Another filter
+	  * @tparam B Filtered item type
+	  * @return A filter that accepts an item if any of these does
+	  */
+	def ||[B <: T](other: Filter[B]) = OrFilter(this, other)
+	
+	/**
+	  * @param other Another filter
+	  * @tparam B Filtered item type
+	  * @return A filter that accepts an item if both of these do
+	  */
+	def &&[B <: T](other: Filter[B]) = AndFilter(this, other)
+	
+	
+	// OTHER	-------------------
+	
+	/**
+	  * @param other Another filter
+	  * @param more Even more filters
+	  * @tparam B Filtered type
+	  * @return A new filter that accepts an item if any of these filters does
+	  */
+	def or[B <: T](other: Filter[B], more: Filter[B]*) = new OrFilter(Vector(this, other) ++ more)
+	
+	/**
+	  * @param other Another filter
+	  * @param more Even more filters
+	  * @tparam B Filtered type
+	  * @return A new filter that accepts an item only if all of these filters do
+	  */
+	def and[B <: T](other: Filter[B], more: Filter[B]*) = new AndFilter(Vector(this, other) ++ more)
 }
