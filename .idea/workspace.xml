@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="utopia-inception" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="4591e97b-3990-4a85-b699-1a4e28a2b632" name="Default Changelist" comment="" />
     <ignored path="out/" />
@@ -13,12 +18,12 @@
     <option name="isMigrated" value="true" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/utopia/inception/test/HandlingTest.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
-              <caret line="39" column="31" lean-forward="true" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+            <state relative-caret-position="608">
+              <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
               <folding>
                 <element signature="e#31#71#0" expanded="true" />
               </folding>
@@ -90,10 +95,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-12" />
-    <option name="width" value="2544" />
-    <option name="height" value="2112" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-11" />
+    <option name="width" value="2450" />
+    <option name="height" value="2111" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -103,66 +108,15 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="inception" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="inception" type="462c0819:PsiDirectoryNode" />
-              <item name="handling" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="inception" type="462c0819:PsiDirectoryNode" />
-              <item name="handling" type="462c0819:PsiDirectoryNode" />
-              <item name="immutable" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="inception" type="462c0819:PsiDirectoryNode" />
-              <item name="handling" type="462c0819:PsiDirectoryNode" />
-              <item name="mutable" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Utopia-Inception-Scala" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Utopia-Inception-Scala" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="inception" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/out" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Ignored.Files" />
@@ -269,14 +223,27 @@
       <option name="project" value="LOCAL" />
       <updated>1554554482202</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Built Flow">
+      <created>1555783133608</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1555783133608</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Built Inception">
+      <created>1555783155816</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1555783155816</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="2575" height="1415" extended-state="7" />
-    <editor active="true" />
+    <frame x="-7" y="0" width="1633" height="1407" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19984108" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21015874" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -310,7 +277,9 @@
     <MESSAGE value="Finished refactoring inception" />
     <MESSAGE value="Added DeepHandler - a handleable mutable Handler implementation" />
     <MESSAGE value="Handler implementations are now abstract&#10;&#10;Handler type parameter was moved to an abstract def" />
-    <option name="LAST_COMMIT_MESSAGE" value="Handler implementations are now abstract&#10;&#10;Handler type parameter was moved to an abstract def" />
+    <MESSAGE value="Built Flow" />
+    <MESSAGE value="Built Inception" />
+    <option name="LAST_COMMIT_MESSAGE" value="Built Inception" />
   </component>
   <component name="editorHistoryManager">
     <entry file="jar://$USER_HOME$/.ivy2/cache/org.scala-lang/scala-library/srcs/scala-library-2.12.8-sources.jar!/scala/Equals.scala">
@@ -543,10 +512,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/utopia/inception/test/HandlingTest.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="39" column="31" lean-forward="true" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
+        <state relative-caret-position="608">
+          <caret line="39" column="31" selection-start-line="39" selection-start-column="31" selection-end-line="39" selection-end-column="31" />
           <folding>
             <element signature="e#31#71#0" expanded="true" />
           </folding>
@@ -559,10 +531,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>utopia-inception</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
