@@ -1,6 +1,5 @@
 .cache-main
-.classpath
-.project
 .settings/
 bin/
 out/
+.idea/workspace.xml
